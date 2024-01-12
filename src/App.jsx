@@ -25,6 +25,8 @@ function getDbItem(itemIndex, defaultValue) {
 
 let userAgent = null;
 
+let lang = {}
+
 let profileUserID = getDbItem("profileUserID", "1000"); // Internal reference ID. (DON'T CHANGE THIS!)
 let profileName = getDbItem("profileName", "1000"); // eg: Keyla James
 let wssServer = getDbItem("wssServer", "127.0.0.1"); // eg: raspberrypi.local
@@ -1478,23 +1480,22 @@ function App() {
     overflow: "auto",
   };
 
-  const is_your=(buddyJid)=>{
-    console.log(`${buddyJid} jid: ${jid}`)
+  const is_your = (buddyJid) => {
+    console.log(`${buddyJid} jid: ${jid}`);
 
-    if(buddyJid==jid)
-    return {
-      justifyContent: "flex-end",
-      display: "flex",
-      margin: "5px 16px",
-    };
+    if (buddyJid == jid)
+      return {
+        justifyContent: "flex-end",
+        display: "flex",
+        margin: "5px 16px",
+      };
     else
-    return {
-      justifyContent: "flex-start",
-      display: "flex",
-      margin: "5px 16px",
-    };
-
-  }
+      return {
+        justifyContent: "flex-start",
+        display: "flex",
+        margin: "5px 16px",
+      };
+  };
   const conversMessageDiv = {
     justifyContent: "flex-end",
     display: "flex",
@@ -1586,9 +1587,188 @@ function App() {
   //   //buddies=buddiesList;
   // },[buddies[selectedBuddy]]);
 
-  if (loginShow) {
-    return (
-      <div>
+  const acctHtml = () => {
+    <div>
+      <div id="Configure_Extension_Html" style={{ display: "none" }}>
+        <div className="UiText"> {lang.asterisk_server_address}:</div>
+        <div>
+          <input
+            id="Configure_Account_wssServer"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_asterisk_server_address}
+            value={getDbItem("wssServer", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.websocket_port}:</div>
+        <div>
+          <input
+            id="Configure_Account_WebSocketPort"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_websocket_port}
+            value={getDbItem("WebSocketPort", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.websocket_path}:</div>
+        <div>
+          <input
+            id="Configure_Account_ServerPath"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_websocket_path}
+            value={getDbItem("ServerPath", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.full_name}:</div>
+        <div>
+          <input
+            id="Configure_Account_profileName"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_full_name}
+            value={getDbItem("profileName", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.sip_domain}:</div>
+        <div>
+          <input
+            id="Configure_Account_SipDomain"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_sip_domain}
+            value={getDbItem("SipDomain", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.sip_username}:</div>
+        <div>
+          <input
+            id="Configure_Account_SipUsername"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_sip_username}
+            value={getDbItem("SipUsername", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.sip_password}":</div>
+        <div>
+          <input
+            id="Configure_Account_SipPassword"
+            className="UiInputText"
+            type="password"
+            placeholder={lang.eg_sip_password}
+            value={getDbItem("SipPassword", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.subscribe_voicemail}:</div>
+        <div>
+          <label for="Configure_Account_Voicemail_Subscribe">
+            {lang.yes}
+            <input type="checkbox" id="Configure_Account_Voicemail_Subscribe" />
+          </label>
+        </div>
+
+        {/* <div id="Voicemail_Did_row" style=\"display:"+ ((VoiceMailSubscribe == true)? "unset" : "none") +"\"> */}
+        <div className="UiText" style={{ marginLeft: "20px" }}>
+          {lang.voicemail_did}:
+        </div>
+        <div style={{ marginLeft: "20px" }}>
+          <input
+            id="Configure_Account_Voicemail_Did"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_internal_subscribe_extension}
+            value={getDbItem("VoicemailDid", "")}
+          />
+        </div>
+      </div>
+
+      <div className="UiText">{lang.chat_engine}:</div>
+
+      <ul style={{ listStyleType: "none" }}>
+        "
+        <li>
+          <label for="chat_type_sip">
+            SIP
+            <input type="radio" name="chatEngine" id="chat_type_sip" />
+          </label>
+        </li>
+        <li>
+          <label for="chat_type_xmpp">
+            XMPP
+            <input type="radio" name="chatEngine" id="chat_type_xmpp" />
+          </label>
+        </li>
+      </ul>
+
+      <div id="RowChatEngine_xmpp">
+        <div className="UiText">{lang.xmpp_server_address}:</div>
+        <div>
+          <input
+            id="Configure_Account_xmpp_address"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_xmpp_server_address}
+            value={getDbItem("XmppServer", "")}
+          />
+        </div>
+
+        <div className="UiText">XMPP {lang.websocket_port}:</div>
+        <div>
+          <input
+            id="Configure_Account_xmpp_port"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_websocket_port}
+            value={getDbItem("XmppWebsocketPort", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.websocket_path}:</div>
+        <div>
+          <input
+            id="Configure_Account_xmpp_path"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_websocket_path}
+            value={getDbItem("XmppWebsocketPath", "")}
+          />
+        </div>
+
+        <div className="UiText">XMPP {lang.sip_domain}:</div>
+        <div>
+          <input
+            id="Configure_Account_xmpp_domain"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_sip_domain}
+            value={getDbItem("XmppDomain", "")}
+          />
+        </div>
+
+        <div className="UiText">{lang.extension_number}:</div>
+        <div>
+          <input
+            id="Configure_Account_profileUser"
+            className="UiInputText"
+            type="text"
+            placeholder={lang.eg_internal_subscribe_extension}
+            value={getDbItem("profileUser", "")}
+          />
+        </div>
+      </div>
+    </div>;
+  };
+
+  const loginShowFunc=()=>{
+    <div>
         {/* <Modal
           show={loginShow}
           onHide={handleLogin}
@@ -1673,147 +1853,157 @@ function App() {
         {/* </Modal.Footer>
         </Modal> */}
       </div>
+  }
+  const mainView=()=>{
+    // Main Container
+    <div style={mainContainer}>
+    <Modal
+      show={showConverse}
+      onHide={handleClose}
+      style={{ position: "absolute" }}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Modal heading</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div>
+          <input
+            type="text"
+            placeholder="Number"
+            onKeyPress={handleSetContact}
+          />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={deleteConverse}>
+          Remove subscription
+        </Button>
+        <Button variant="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    <div style={container}>
+      <div style={{ display: "flex" }}>
+        <div style={profileInfoDiv}>
+          <img
+            style={ProfileImage}
+            src="/profile/profilephoto.jpeg"
+            alt="Profile image"
+          />
+        </div>
+
+        <Button variant="primary" onClick={handleShow}>
+          Launch demo modal
+        </Button>
+      </div>
+
+      <div //SearchBox
+        style={SearchBox}
+      >
+        <div //SearchContainer
+          style={SearchContainer}
+        >
+          <img
+            style={SearchIcon}
+            src={"/search-icon.svg"} //SearchIcon
+          />
+          <input
+            style={SearchInput}
+            type="text"
+            placeholder="Search or start new chat"
+          />
+        </div>
+      </div>
+
+      {buddies.map((userData, index) => (
+        <div
+          style={contactContactItem}
+          key={index}
+          onClick={(e) => {
+            e.preventDefault();
+            setSelectedBuddy(index);
+            setConverseData(buddies[index].stream);
+            console.log(userData.jid);
+            //alert('You clicked me!'+index);
+          }}
+        >
+          <img style={contactProfileIcon} src="" alt="Profile icon" />
+          <div style={contactContactInfo}>
+            <span style={contactContactName}>
+              {userData.jid} {index}
+            </span>
+            <span style={contactMessageText}>10:04 PM</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div style={Conversation}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={conversProfileHeader}>
+          <img style={conversProfileImage} src="" alt="Profile Image" />
+          Kelly Kinyama
+        </div>
+        <div style={conversProfileHeader}>
+          <button onClick={handleShowConverse}>Delete Subscription</button>
+        </div>
+      </div>
+      <div style={conversMessageContainer}>
+        {selectedBuddy >= 0 &&
+        buddies[selectedBuddy] != null &&
+        buddies[selectedBuddy].stream != null &&
+        buddies[selectedBuddy].stream.DataCollection != null
+          ? buddies[selectedBuddy].stream.DataCollection.map(
+              (message, index) => (
+                <div style={is_your(message.DstUserId)} key={index}>
+                  <div style={conversMessage}>
+                    {JSON.stringify(message.MessageData)}
+                  </div>
+                </div>
+              )
+            )
+          : ""}
+      </div>
+      <div style={conversChatBox}>
+        <div style={SearchContainer}>
+          <img style={conversEmojiImage} src="" alt="Emoji" />
+          <textarea
+            style={SearchInput}
+            type="text"
+            placeholder="Type a message"
+            onKeyPress={(e) => {
+              setComposedMsg(composedMsg + e.key);
+              console.log(composedMsg);
+            }}
+          ></textarea>
+          <button
+            onClick={() => {
+              if (selectedBuddy != -1) {
+                XmppSendMessage(buddies[selectedBuddy], composedMsg, uID());
+              } else {
+                alert("Select buddy first");
+              }
+            }}
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  }
+
+  if (loginShow) {
+    return (
+      loginShowFunc()
     );
   } else
     return (
-      // Main Container
-      <div style={mainContainer}>
-        <Modal
-          show={showConverse}
-          onHide={handleClose}
-          style={{ position: "absolute" }}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-              <input
-                type="text"
-                placeholder="Number"
-                onKeyPress={handleSetContact}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={deleteConverse}>
-              Remove subscription
-            </Button>
-            <Button variant="secondary" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <div style={container}>
-          <div style={{ display: "flex" }}>
-            <div style={profileInfoDiv}>
-              <img
-                style={ProfileImage}
-                src="/profile/profilephoto.jpeg"
-                alt="Profile image"
-              />
-            </div>
-
-            <Button variant="primary" onClick={handleShow}>
-              Launch demo modal
-            </Button>
-          </div>
-
-          <div //SearchBox
-            style={SearchBox}
-          >
-            <div //SearchContainer
-              style={SearchContainer}
-            >
-              <img
-                style={SearchIcon}
-                src={"/search-icon.svg"} //SearchIcon
-              />
-              <input
-                style={SearchInput}
-                type="text"
-                placeholder="Search or start new chat"
-              />
-            </div>
-          </div>
-
-          {buddies.map((userData, index) => (
-            <div
-              style={contactContactItem}
-              key={index}
-              onClick={(e) => {
-                e.preventDefault();
-                setSelectedBuddy(index);
-                setConverseData(buddies[index].stream);
-                console.log(userData.jid);
-                //alert('You clicked me!'+index);
-              }}
-            >
-              <img style={contactProfileIcon} src="" alt="Profile icon" />
-              <div style={contactContactInfo}>
-                <span style={contactContactName}>
-                  {userData.jid} {index}
-                </span>
-                <span style={contactMessageText}>10:04 PM</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div style={Conversation}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={conversProfileHeader}>
-              <img style={conversProfileImage} src="" alt="Profile Image" />
-              Kelly Kinyama
-            </div>
-            <div style={conversProfileHeader}>
-              <button onClick={handleShowConverse}>Delete Subscription</button>
-            </div>
-          </div>
-          <div style={conversMessageContainer}>
-            {selectedBuddy >= 0 &&
-            buddies[selectedBuddy] != null &&
-            buddies[selectedBuddy].stream != null &&
-            buddies[selectedBuddy].stream.DataCollection != null
-              ? buddies[selectedBuddy].stream.DataCollection.map(
-                  (message, index) => (
-                    <div style={is_your(message.DstUserId)} key={index}>
-                      <div style={conversMessage}>
-                        {JSON.stringify(message.MessageData)}
-                      </div>
-                    </div>
-                  )
-                )
-              : ""}
-          </div>
-          <div style={conversChatBox}>
-            <div style={SearchContainer}>
-              <img style={conversEmojiImage} src="" alt="Emoji" />
-              <textarea
-                style={SearchInput}
-                type="text"
-                placeholder="Type a message"
-                onKeyPress={(e) => {
-                  setComposedMsg(composedMsg + e.key);
-                  console.log(composedMsg);
-                }}
-              ></textarea>
-              <button
-                onClick={() => {
-                  if (selectedBuddy != -1) {
-                    XmppSendMessage(buddies[selectedBuddy], composedMsg, uID());
-                  } else {
-                    alert("Select buddy first");
-                  }
-                }}
-              >
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+      // mainView()
+      acctHtml()
+          );
 }
 
 export default App;
