@@ -2566,6 +2566,12 @@ function App() {
         margin: "5px 16px",
       };
   };
+      return {
+        justifyContent: "flex-start",
+        display: "flex",
+        margin: "5px 16px",
+      };
+  };
   const conversMessageDiv = {
     justifyContent: "flex-end",
     display: "flex",
